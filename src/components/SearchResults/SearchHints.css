@@ -1,0 +1,185 @@
+.searchHints-main-container {
+    height: 180px;
+    text-align: center;
+    margin-top: 0px;
+    width: 100%;
+    /* position: relative; */
+}
+.searchHints-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.searchHints-data h1 {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 64px;
+    text-align: center;
+}
+.searchHints-data p {
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #808080;
+    text-align: center;
+}
+
+.searchHints-slider-back-green {
+    background: #3eac04;
+    height: 180px;
+    width: 100%;
+    position: absolute;
+    top: 300px;
+    z-index: 0;
+}
+
+.SlideContainer {
+    width: 90%;
+    margin: auto;
+}
+
+.cardHints-container {
+    display: flex;
+    /* height: 1px; */
+    border-radius: 6px;
+    color: #333;
+    padding: 1rem;
+    overflow-x: auto;
+    /* position: relative; */
+    z-index: 1;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+
+}
+.cardHints-container::-webkit-scrollbar {
+    display: none;
+}
+
+.SearchHintsCard {
+    height: 60px;
+    flex: 0 0 250px;
+    background: #feffff;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.03), 0px 33px 32px rgba(50, 44, 44, 0.05), 0px 1px 1px rgba(82, 73, 73, 0.1);
+    /* margin: 3rem 1rem; */
+    margin: 0;
+    /* overflow: hidden; */
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 32px;
+    /* border-bottom-left-radius: 32px;
+    border-bottom-right-radius: 32px; */
+    /* padding: 20px; */
+}
+
+/* .SearchHintsCard img {
+    width: 70px;
+    height: 70px;
+    object-fit: center;
+    border-radius: 50%;
+} */
+.SearchHintsCard:hover {
+    box-shadow: 0 4px 1rem -4px #000;
+    transform: translateY(-3px);
+}
+.card-content {
+    padding: 1rem;
+    text-align: center;
+}
+.card-content p {
+    font-weight: 600;
+    font-size: 18px;
+    color: #3eac04;
+    letter-spacing: 0.3px;
+}
+.card-content span {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 36px;
+}
+@media screen and (max-width: 600px) {
+    .cardHints-container {
+        display: flex;
+        /* height: 1px; */
+        border-radius: 6px;
+        color: #333;
+        padding: 1rem;
+        overflow-x: auto;
+        /* position: relative; */
+        z-index: 1;
+        flex-direction: row;
+        /* flex-wrap: nowrap; */
+        align-content: flex-start;
+        /* justify-content: center; */
+        padding: 0.5rem;
+    
+    }
+
+    .searchHints-main-container {
+        height: 19vh;
+        width: 100%;
+        text-align: center;
+        margin-top: 0px;
+        width: 100%;
+        position: relative;
+    }
+    .SlideContainer {
+        width: 100%;
+    }
+
+    /* .cardHints-container {
+       
+    } */
+
+    .SearchHintsCard {
+        margin: 0.5rem;
+    }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 500px) {
+    .searchHints-main-container {
+        height: 20vh;
+        width: 100%;
+        text-align: center;
+        margin-top: 0px;
+        width: 100%;
+        /* position: relative; */
+    }
+    .cardHints-container {
+        display: flex;
+        /* height: 1px; */
+        border-radius: 6px;
+        color: #333;
+        padding: 1rem;
+        overflow-x: auto;
+        /* position: relative; */
+        z-index: 1;
+        flex-direction: row;
+        /* flex-wrap: nowrap; */
+        align-content: flex-start;
+        justify-content: flex-start;
+        padding: 0.5rem;
+    
+    }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}
