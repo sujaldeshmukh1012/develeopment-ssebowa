@@ -45,14 +45,12 @@ const HomePage = () => {
                     </div> */}
 
                     <IntroContainer />
+                    <Profile/>
                     <HomeGallery />
-                    {/* <Profile></Profile> */}
                     <HowItWorks />
                     <AboutSsebowa />
                     <WhyChooseUs />
                     <RecentBlog />
-
-                    {/* <HowItWorks /> */}
                     <Testimonials />
                     <Footer />
 
@@ -63,19 +61,9 @@ const HomePage = () => {
                     <TestimonialContainer /> */}
 
                     <IconBoxContainer classOption="section-pb"></IconBoxContainer>
-                    {/* <TodosSlideAnimation classOption="section-pb"></TodosSlideAnimation>  */}
-
-                    {/* <CardFlipBook></CardFlipBook> */}
-
-                    {/* <BookCard1></BookCard1> */}
-
                     <FunFactContainer classOption="mt-10 mt-lg-0" />
                     <AboutContainer></AboutContainer>
                     <VideoCaorusel></VideoCaorusel>
-                    {/* <VideoContainer></VideoContainer> */}
-                    {/* <HomeBlog />
-                    <NewsletterArea /> */}
-                    {/* <Footer /> */}
                     <StickyChatBot />
                     <ScrollToTop />
                 </div>

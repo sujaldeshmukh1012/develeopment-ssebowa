@@ -30,6 +30,9 @@ function Profile() {
             setMinutes(0);
             setHours((hr) => hr + 1);
         }
+        return(()=>{
+            console.log("")
+        })
     }, [minutes]);
 
     useEffect(() => {
@@ -48,7 +51,7 @@ function Profile() {
 
     return (
         <div>
-            <h1 className="heading-title">
+            {/* <h1 className="heading-title">
                 Due to your search at ssebow we have planted a <FontAwesomeIcon style={{ fontSize: "30px", color: "#4AB421" }} icon={faTree} />{" "}
                 <span style={{ color: "#4AB421", fontWeight: "bold", fontSize: "26px" }}> {hours.toString().padStart(2, "0")} </span>
                 <span className="d-none">
@@ -63,7 +66,8 @@ function Profile() {
                     :&nbsp; Minutes: {minutes.toString().padStart(2, "0")} :&nbsp; Seconds: {seconds.toString().padStart(2, "0")}
                 </span>{" "}
                 meals
-            </h1>
+            </h1> */}
+            <h1 className="heading-title" >The World’s Most  <span style={{ color: "#4AB421", fontWeight: "bold", fontSize: "26px" }}> Private</span> Search Engine</h1>
         </div>
     );
 }

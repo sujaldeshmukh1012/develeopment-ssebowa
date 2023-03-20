@@ -1,47 +1,36 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { AppBar, Box, Button, Grid, IconButton, Menu, MenuItem, Tab, Tabs, Toolbar, useMediaQuery, useTheme } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 import PropTypes from "prop-types"; // ES6
 import SearchIcon from "@mui/icons-material/Search";
-import SouthEastIcon from "@mui/icons-material/SouthEast";
-import Modal from "@mui/material/Modal";
-
-import BookIcon from "@mui/icons-material/Book";
+import logo from "../../assets/images/download.png";
 import StoreIcon from "@mui/icons-material/Store";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import SearchBarForNavbar from "../SearchBarforNavbar/SearchBarForNavbar";
-import NavbarDrawer from "./NavbarDrawer";
-
-import { faBlog, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophone, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import "../../utils/style.css";
-import { Form } from "react-bootstrap";
 import { BASEURL } from "../../connection/BaseUrl";
-
-const style = {
-    position: "absolute",
-    top: "20%",
-    left: "85%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    // bgcolor: "transparent",
-    // border: "2px solid #000",
-    // boxShadow: 24,
-    // p: 4,
-};
-
+import styles from "./NavBar.module.css";
+import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import SidebarUpdated from "../SidebarUpdated/SidebarUpdated";
+import { Dropdown } from "react-bootstrap";
 const NavBarUpdated = () => {
-    const [searchBar, setSearchBar] = useState(false);
-
     const history = useHistory();
     const [inputVal, SetInputVal] = React.useState("");
     const [SuggestionReady, SetSuggestionReady] = React.useState(false);
     const [Suggestions, SetSuggestions] = React.useState([]);
+    const [offset, setOffset] = useState(0);
 
-    const location = useLocation();
-
+    useEffect(() => {
+        const onScroll = () => setOffset(window.pageYOffset);
+        console.log("scrolled");
+        // clean up code
+        window.removeEventListener("scroll", onScroll);
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
     var fetchUrl = BASEURL + "autocomplete-ssebowa/";
     const FetchSuggestions = (value) => {
         fetch(fetchUrl, {
@@ -97,569 +86,134 @@ const NavBarUpdated = () => {
         }
     };
 
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [searchBarOpen, setSearchBarOpen] = React.useState(false);
+    const [sideBar, SetsideBar] = useState(false);
 
-    const handleSearchBarOpen = () => {
-        setSearchBarOpen(true);
-    };
-    const handleSearchBarClose = () => {
-        setSearchBarOpen(false);
+    const TogglesideBar = () => {
+        SetsideBar(!sideBar);
     };
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
+    // Speech Recognition
+    const { transcript, listening, finalTranscript } = useSpeechRecognition();
+
+    useEffect(() => {
+        SetInputVal(transcript);
+        console.log(transcript.length);
+    }, [transcript]);
+
+    useEffect(() => {
+        SetInputVal(finalTranscript);
+        SubmitSearchRequest(false, finalTranscript);
+    }, [finalTranscript]);
+
+    const SetVoiceListening = (e) => {
+        e.preventDefault();
+    };
+    // Sidebar
+    const [open, setOpen] = useState(false);
+    const dropdownRef = useRef(null);
+
+    const handleClicks = () => setOpen(!open);
+
+    const handleClickOutsides = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setOpen(false);
+        }
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const theme = useTheme();
-    const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-    // const location = useLocation();
-
-    const [value, setValue] = useState();
-
-    const linksArray = [
-        { id: 0, navName: "Home", navLink: "/" },
-        { id: 1, navName: "About", navLink: "/about" },
-        { id: 2, navName: "Gallery", navLink: "/gallery" },
-        { id: 3, navName: "Projects", navLink: "/projects" },
-        { id: 4, navName: "Contact", navLink: "/contact" },
-        { id: 5, navName: "Team", navLink: "/team" },
-    ];
-
-    const linksArrayForDrawer = [
-        { id: 0, icon: "fa-solid fa-house", navName: "Home", navLink: "/" },
-        { id: 1, icon: "fa-solid fa-circle-info", navName: "About", navLink: "/about" },
-        { id: 2, icon: "fa-solid fa-image", navName: "Gallery", navLink: "/gallery" },
-        { id: 3, icon: "fa-solid fa-history", navName: "Projects", navLink: "/projects" },
-        { id: 4, icon: "fa-solid fa-phone", navName: "Contact", navLink: "/contact" },
-        { id: 5, icon: "fa-solid fa-people-group", navName: "Team", navLink: "/team" },
-        { id: 6, icon: "fa-solid fa-comment", navName: "Faq", navLink: "/faq" },
-    ];
-
-    const limitToMoreNavs = 3;
-    const normalNavs = linksArray;
-    const moreNavs = linksArray.slice(limitToMoreNavs, linksArray.length);
-
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutsides, true);
+        return () => {
+            document.removeEventListener("click", handleClickOutsides, true);};
+        },[]);
     return (
         <>
-            <AppBar
-                style={{
-                    background: "#E5E5E5",
-                    padding: "0px",
-                    boxShadow: "none",
-                }}
-            >
-                <Toolbar
-                    sx={{
-                        height: "126px",
-                        width: "98vw",
-                        padding: "0px",
-                    }}
-                >
-                    {isMatch ? (
-                        <>
-                            <Grid
-                                sx={{ placeItems: "center" }}
-                                container
-                                style={{ flexDirection: "row-reverse", justifyContent: " space-between", paddingBottom: "59px" }}
-                            >
-                                <Grid item xs={2}>
-                                    <NavbarDrawer className="bg-white text-white" style={{ color: "white" }} linksArray={linksArrayForDrawer}></NavbarDrawer>
-                                </Grid>
+            {listening ? <VoiceModal listening={listening} transcript={transcript} SpeechRecognition={SpeechRecognition} /> : <></>}
+            <SidebarUpdated isOpen={sideBar} SetIsOpen={TogglesideBar} />
+            <div className={offset >= 50 ? styles.AppNavBarDark : styles.AppNavBar}>
+                <div className={styles.AppMiddleNavSection}>
+                    <div className={styles.TopLeftSection}>
+                        <a href="/">
+                            <img className={styles.LogoNavMain} src={logo} alt={"Ssebowa Logo"} />
+                        </a>
+                        {offset >= 200 ? (
+                            <NavBarSearchBar
+                                inputVal={inputVal}
+                                Suggestions={Suggestions}
+                                SuggestionReady={SuggestionReady}
+                                onChangeInput={onChangeInput}
+                                SubmitSearchRequest={SubmitSearchRequest}
+                                mobile={false}
+                                SetVoiceListening={SetVoiceListening}
 
-                                <Grid item xs={1} />
-
-                                <Grid className="small-logo" item xs={2}>
-                                    <Link to="/">
-                                        <img style={{ maxWidth: "103px", marginLeft: "23px" }} src="https://i.ibb.co/2SRRBdJ/logo-jybeu2-png.png" alt="" />
-                                    </Link>
-                                </Grid>
-
-                                <Grid className="" item xs={2} style={{ marginTop: "118px" }}>
-                                    <div className="mainSearchBarMainDiv100">
-                                        {location.pathname != "/" ? (
-                                            <>
-                                                <Form
-                                                    method="NONE"
-                                                    className="d-flex"
-                                                    style={{
-                                                        width: "95vw",
-                                                        marginLeft: "5px",
-                                                        position: "fixed",
-                                                        top: "70px",
-                                                    }}
-                                                    onSubmit={(e) => SubmitSearchRequest(e)}
-                                                >
-                                                    <Form.Control
-                                                        type="text"
-                                                        // className="me-1"
-                                                        aria-label="Search"
-                                                        style={{
-                                                            borderRadius: "100px 0px 0px 100px",
-                                                            height: "38px",
-                                                            border: "none",
-                                                            fontSize: "13px",
-                                                        }}
-                                                        value={inputVal}
-                                                        placeholder="Search to plant trees, feed and give pads..."
-                                                        onChange={(e) => onChangeInput(e)}
-                                                    />
-
-                                                    <Button
-                                                        variant="success "
-                                                        className=" d-flex justify-content-center align-items-center"
-                                                        style={{
-                                                            color: "black",
-                                                            borderRadius: "0 100px 100px 0",
-                                                            backgroundColor: "#fff",
-                                                            border: "none",
-                                                        }}
-                                                        type="submit"
-                                                    >
-                                                        <FontAwesomeIcon icon={faMagnifyingGlass} className="text-black me-1" size="md" />
-                                                    </Button>
-                                                </Form>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Form
-                                                    className="topSearchBar_Form topSearchBar_Form d-flex me-3 ms-3 pe-1 ps-1  align-items-center justify-content-center serch-focus"
-                                                    style={{
-                                                        width: "80vw",
-                                                        height: "100%",
-                                                        maxHeight: "200px",
-                                                    }}
-                                                    onSubmit={(e) => SubmitSearchRequest(e)}
-                                                >
-                                                    <div className="top-searchBar">
-                                                        <div
-                                                            className="d-flex"
-                                                            style={{
-                                                                width: "100vw",
-                                                                marginLeft: "9px",
-                                                                position: "fixed",
-                                                                left: "-36px",
-                                                                right: "2px",
-                                                                top: "71px",
-                                                                // maxWidth: "300px",
-                                                                // minWidth: "100px",
-                                                                // height: "80%",
-                                                                // maxHeight: "50px",
-                                                            }}
-                                                        >
-                                                            <Form.Control
-                                                                type="text"
-                                                                className=" serch-input"
-                                                                aria-label="Search"
-                                                                placeholder="Search to plant trees, feed and give pads..."
-                                                                value={inputVal}
-                                                                onChange={(e) => onChangeInput(e)}
-                                                            />
-
-                                                            <Button
-                                                                type="submit"
-                                                                className="  d-flex justify-content-center align-items-center search-text"
-                                                                style={{
-                                                                    color: "black",
-                                                                    borderRadius: "0 100px 100px 0",
-                                                                    backgroundColor: "#fff",
-                                                                    border: "none",
-                                                                }}
-                                                            >
-                                                                <div className="text-black ">
-                                                                    <FontAwesomeIcon icon={faMagnifyingGlass} className="text-black me-2" size="lg" />
-                                                                </div>
-                                                            </Button>
-                                                        </div>
-                                                    </div>
-                                                </Form>
-                                                {/* {searchBar ? (
-                            <Form
-                                className="topSearchBar_Form topSearchBar_Form d-flex me-3 ms-3 pe-1 ps-1  align-items-center justify-content-center serch-focus"
-                                style={{
-                                    width: "80vw",
-                                    height: "100%",
-                                    maxHeight: "200px",
-                                }}
-                                onSubmit={(e) => SubmitSearchRequest(e)}
-                            >
-                                <div className="top_searchBar d-flex">
-                                    <Form.Control
-                                        type="text"
-                                        className=" serch-input"
-                                        aria-label="Search"
-                                        placeholder="Search the web to plant trees..."
-                                        value={inputVal}
-                                        onChange={(e) => onChangeInput(e)}
-                                    />
-
-                                    <Button
-                                        type="submit"
-                                        className="  d-flex justify-content-center align-items-center search-text"
-                                        style={{
-                                            color: "black",
-                                            borderRadius: "0 100px 100px 0",
-                                            backgroundColor: "#fff",
-                                            border: "none",
-                                        }}
-                                    >
-                                        <div className="text-black ">
-                                            <FontAwesomeIcon icon={faMagnifyingGlass} className="text-black me-2" size="lg" />
-                                        </div>
-                                    </Button>
-                                    <Button style={{ backgroundColor: "gray" }} className="cncl-btn" onClick={() => setSearchBar(false)}>
-                                        Cancle
-                                    </Button>
-                                </div>
-                            </Form>
+                            />
                         ) : (
-                            <Form
-                                className="homeSearchBar d-flex me-3 ms-3 pe-1 ps-1  align-items-center justify-content-center serch-focus"
-                                style={{
-                                    width: "80vw",
-                                    height: "100%",
-                                    maxHeight: "200px",
-                                }}
-                            >
-                                <Form.Control
-                                    type="text"
-                                    className="me-1 serch-input"
-                                    aria-label="Search"
-                                    placeholder="Search the web to plant trees..."
-                                    onClick={() => setSearchBar(true)}
-                                />
-
-                                <Button
-                                    className="  d-flex justify-content-center align-items-center search-text"
-                                    style={{
-                                        width: "2px",
-                                        color: "black",
-                                        borderRadius: "0 100px 100px 0",
-                                        position: "relative",
-                                        right: "5px",
-                                        backgroundColor: "#fff",
-                                        border: "none",
-                                    }}
-                                >
-                                    <div className="text-black bg-light">
-                                        <FontAwesomeIcon icon={faMagnifyingGlass} className="text-black me-2" size="lg" />
-                                    </div>
-                                </Button>
-                            </Form>
-                        )} */}
-                                            </>
-                                        )}
-
-                                        {SuggestionReady ? (
-                                            <div
-                                                className="d-flex justify-content-center align-items-center search-bars "
-                                                style={{ marginTop: "80px", marginRight: "45px" }}
-                                            >
-                                                <div
-                                                    id="suggestBox"
-                                                    className="mainSearchBarSuggestionDiv d-flex flex-column align-items-center justify-content-start ms-0"
-                                                >
-                                                    {Suggestions.length !== 0 ? (
-                                                        <>
-                                                            {Suggestions?.map((item, i) => {
-                                                                return <SuggestSpan name={item} key={i} SubmitSearchRequest={SubmitSearchRequest} />;
-                                                            })}
-                                                        </>
-                                                    ) : (
-                                                        <div className="d-flex w-100 align-items-center justify-content-center" style={{ height: "100%" }}>
-                                                            <p className="text-danger">No results Found</p>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </div>
-
-                                    {/* <div className="mainSearchBarMainDiv100">
-                                        {location.pathname != "/" ? (
-                                            <>
-                                                <Form
-                                                    method="NONE"
-                                                    className="d-flex"
-                                                    style={{
-                                                        width: "95vw",
-                                                        marginLeft: "5px",
-                                                        position: "fixed",
-                                                        top: "70px",
-                                                        // maxWidth: "300px",
-                                                        // minWidth: "100px",
-                                                        // height: "80%",
-                                                        // maxHeight: "50px",
-                                                    }}
-                                                    onSubmit={(e) => SubmitSearchReques(e)}
-                                                >
-                                                    <Form.Control
-                                                        type="text"
-                                                        // className="me-1"
-                                                        aria-label="Search"
-                                                        style={{
-                                                            // width: "80%",
-                                                            // maxWidth: "300px",
-                                                            // minWidth: "130px",
-                                                            borderRadius: "100px 0px 0px 100px",
-                                                            height: "38px",
-                                                            border: "none",
-                                                        }}
-                                                        value={inputVal}
-                                                        placeholder="Search the web to plant trees..."
-                                                        onChange={(e) => onChangeInput(e)}
-                                                    />
-
-                                                    <Button
-                                                        variant="success "
-                                                        className=" d-flex justify-content-center align-items-center"
-                                                        style={{
-                                                            width: "10%",
-                                                            // minWidth: "6px",
-                                                            borderRadius: "0px 100px 100px 0px",
-                                                            background: "white",
-                                                        }}
-                                                        type="submit"
-                                                    >
-                                                        <FontAwesomeIcon icon={faMagnifyingGlass} className="text-black me-1" size="md" />
-                                                    </Button>
-                                                </Form>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Form
-                                                    className="topSearchBar_Form topSearchBar_Form d-flex me-3 ms-3 pe-1 ps-1  align-items-center justify-content-center serch-focus"
-                                                    style={{
-                                                        width: "80vw",
-                                                        height: "100%",
-                                                        maxHeight: "200px",
-                                                    }}
-                                                    onSubmit={(e) => SubmitSearchReques(e)}
-                                                >
-                                                    <div className="top_searchBar d-flex">
-                                                        <Form.Control
-                                                            type="text"
-                                                            className=" serch-input"
-                                                            aria-label="Search"
-                                                            placeholder="Search the web to plant trees..."
-                                                            value={inputVal}
-                                                            onChange={(e) => onChangeInput(e)}
-                                                        />
-
-                                                        <Button
-                                                            type="submit"
-                                                            className="  d-flex justify-content-center align-items-center search-text"
-                                                            style={{
-                                                                color: "black",
-                                                                borderRadius: "0 100px 100px 0",
-                                                                backgroundColor: "#fff",
-                                                                border: "none",
-                                                            }}
-                                                        >
-                                                            <div className="text-black ">
-                                                                <FontAwesomeIcon icon={faMagnifyingGlass} className="text-black me-2" size="lg" />
-                                                            </div>
-                                                        </Button>
-                                                    </div>
-                                                </Form>
-                                            </>
-                                        )}
-
-                                        {SuggestionReady ? (
-                                            <div
-                                                className="d-flex justify-content-center align-items-center search-bars "
-                                                style={{ marginTop: "80px", marginRight: "45px" }}
-                                            >
-                                                <div
-                                                    id="suggestBox"
-                                                    className="mainSearchBarSuggestionDiv d-flex flex-column align-items-center justify-content-start ms-0"
-                                                >
-                                                    {Suggestions.length !== 0 ? (
-                                                        <>
-                                                            {Suggestions?.map((item, i) => {
-                                                                return <SuggestSpan name={item} key={i} SubmitSearchRequest={SubmitSearchRequest} />;
-                                                            })}
-                                                        </>
-                                                    ) : (
-                                                        <div className="d-flex w-100 align-items-center justify-content-center" style={{ height: "100%" }}>
-                                                            <p className="text-danger">No results Found</p>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </div> */}
-                                </Grid>
-                            </Grid>
-                        </>
-                    ) : (
-                        <>
-                            <Grid sx={{ placeItems: "center" }} container>
-                                <Grid
-                                    item
-                                    xs={5}
-                                    sx={{
-                                        display: "flex",
-                                        marginLeft: "auto",
-                                    }}
-                                >
-                                    <Tabs
-                                        indicatorColor="secondary"
-                                        color="#3FAF04"
-                                        textColor="inherit"
-                                        value={value}
-                                        onChange={(e, val) => setValue(val)}
-                                        // sx={{
-                                        //     color: "white",
-                                        // }}
+                            <></>
+                        )}
+                    </div>
+                    <div ref={dropdownRef}>
+                    <Dropdown onClick={handleClicks} show={open}>
+                                <Dropdown.Toggle variant="ghost" id="dropdown-menu">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-5 w-5"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        style={{ width: "30px" }}
                                     >
-                                        {normalNavs.map((linkInfo) => (
-                                            <Tab
-                                                sx={{
-                                                    fontWeight: "bold",
-                                                    fontSize: 14,
-                                                    ":hover": {
-                                                        color: "#2e7d32",
-                                                        opacity: 1,
-                                                    },
-                                                }}
-                                                key={linkInfo.id}
-                                                label={linkInfo.navName}
-                                                component={Link}
-                                                to={linkInfo.navLink}
-                                            ></Tab>
-                                        ))}
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" />
+                                    </svg>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu className="menu menu-compact shadow bg-base-100 rounded-box w-52">
+                                    <div style={{ display: "flex", flexDirection: "column" }}>
+                                        <Link className="ms-5 mb-4 " to="/" style={{ color: "black" }}>
+                                            Home
+                                        </Link>
+                                        <Link className="ms-5 mb-4" to="/about" style={{ color: "black" }}>
+                                            About
+                                        </Link>
+                                        <Link className="ms-5 mb-4" to="/gallery" style={{ color: "black" }}>
+                                            Gallery
+                                        </Link>
+                                        <Link className="ms-5 mb-4" to="/projects" style={{ color: "black" }}>
+                                            Projects
+                                        </Link>
+                                        <Link className="ms-5 mb-4" to="/contacts" style={{ color: "black" }}>
+                                            Contacts
+                                        </Link>
+                                        <Link className="ms-5 mb-4" to="/team" style={{ color: "black" }}>
+                                            Team
+                                        </Link>
+                                        <Link className="ms-5 mb-4" to="/faq" style={{ color: "black" }}>
+                                            Faq
+                                        </Link>
+                                    </div>
+                                </Dropdown.Menu>
+                            </Dropdown>
 
-                                        {/* <Tab
-                                            aria-controls="tab-menu"
-                                            aria-haspopup="true"
-                                            onClick={handleClick}
-                                            sx={{
-                                                fontWeight: "bold",
-                                                fontSize: 14,
+                            </div>
+                </div>
+                {offset >= 200 ? (
+                            <NavBarSearchBar
+                                inputVal={inputVal}
+                                Suggestions={Suggestions}
+                                SuggestionReady={SuggestionReady}
+                                onChangeInput={onChangeInput}
+                                SubmitSearchRequest={SubmitSearchRequest}
+                                mobile={true}
+                                SetVoiceListening={SetVoiceListening}
 
-                                                ":hover": {
-                                                    color: "#2e7d32",
-                                                    opacity: 1,
-                                                },
-                                            }}
-                                            label="More"
-                                            icon={<SouthEastIcon fontSize="small"></SouthEastIcon>}
-                                            iconPosition="end"
-                                        ></Tab> */}
-                                    </Tabs>
-
-                                    <Menu id="tab-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-                                        {moreNavs.map((linksInfo) => (
-                                            <MenuItem sx={{ color: "white" }} key={linksInfo.key} component={Link} to={linksInfo.navLink} onClick={handleClose}>
-                                                {linksInfo.navName}
-                                            </MenuItem>
-                                        ))}
-                                        {/* <MenuItem
-                                            onClick={() => {
-                                                window.open("https://blog.ssebowa.org/", "_blank");
-                                                handleClose();
-                                            }}
-                                        >
-                                            Blogs
-                                        </MenuItem>
-                                        <MenuItem
-                                            onClick={() => {
-                                                window.open("https://store.ssebowa.org/", "_blank");
-                                                handleClose();
-                                            }}
-                                        >
-                                            Stores
-                                        </MenuItem> */}
-                                    </Menu>
-                                </Grid>
-
-                                <Grid item xs={2} sx={{ px: 4 }}>
-                                    {/* <Link to="/">
-                                        <img
-                                            src="https://res.cloudinary.com/dicgvondb/image/upload/v1674668332/ssebowa/ssebowa.org/search-engine-static-frontend/images/logo/logo_jybeu2.png"
-                                            alt=""
-                                        />
-                                    </Link> */}
-                                </Grid>
-
-                                <Grid item xs={1} />
-                                <Grid item xs={4} className="d-flex justify-content-end">
-                                    {/* {location.pathname === "/" ? (
-                                        <>
-                                            <Button
-                                                sx={{ m: 1 }}
-                                                onClick={() => {
-                                                    window.open("https://blog.ssebowa.org/", "_blank");
-                                                    handleClose();
-                                                }}
-                                                variant="contained"
-                                                color="success"
-                                                startIcon={<BookIcon />}
-                                            >
-                                                Blog
-                                            </Button>
-                                            <Button
-                                                onClick={() => {
-                                                    window.open("https://store.ssebowa.org/", "_blank");
-                                                    handleClose();
-                                                }}
-                                                variant="contained"
-                                                color="success"
-                                                startIcon={<StoreIcon />}
-                                                sx={{ m: 1 }}
-                                            >
-                                                {" "}
-                                                Store
-                                            </Button>
-                                        </>
-                                    ) : (
-                                        <Box
-                                            style={{ width: "500px" }}
-                                            sx={{
-                                                display: "flex",
-
-                                                mx: "auto",
-                                            }}
-                                        >
-                                            <SearchBarForNavbar></SearchBarForNavbar>
-                                        </Box>
-                                    )} */}
-                                    {/* <a href="https://blog.ssebowa.org/" target="_blank" rel="noopener noreferrer"></a> */}
-                                    {/* <a href="https://blog.ssebowa.org/" target="_blank" rel="noopener noreferrer">
-                                        <FontAwesomeIcon
-                                            icon={faBlog}
-                                            className="pt-1 ps-3 "
-                                            size="xl"
-                                            style={{
-                                                color: "#3FAF04",
-                                            }}
-                                        ></FontAwesomeIcon>
-                                    </a> */}
-                                    {/* <a href="https://store.ssebowa.org/" target="_blank" rel="noopener noreferrer">
-                                        <img style={{ width: "40px" }} src="https://i.ibb.co/mFC48c8/Capture-removebg-preview.png" alt="" />
-                                    </a> */}
-                                </Grid>
-                            </Grid>
-                        </>
-                    )}
-                </Toolbar>
-            </AppBar>
+                            />
+                        ) : (
+                            <></>
+                        )}
+            </div>
         </>
     );
 };
-
 export default NavBarUpdated;
 
-const SuggestSpan = ({ name, SubmitSearchRequest }) => {
+export const SuggestSpan = ({ name, SubmitSearchRequest, SpeechRecognition }) => {
     return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <span
@@ -684,4 +238,72 @@ const SuggestSpan = ({ name, SubmitSearchRequest }) => {
 
 SuggestSpan.propTypes = {
     name: PropTypes.string,
+};
+export const NavBarSearchBar=({SubmitSearchRequest,onChangeInput,inputVal,Suggestions,SuggestionReady,mobile}) =>{
+    return(
+        <div className={mobile ? styles.MainSearchBarWrapperMobile :styles.MainSearchBarWrapper }>
+        <form className={styles.MainSearchBar} onSubmit={(e) => SubmitSearchRequest(e)}>
+            <button className={styles.MainBtn} style={{ marginLeft: "1em" }} type="sumbit">
+                <FontAwesomeIcon icon={faMagnifyingGlass} className="pt-1 pl-1" size="md" />
+            </button>
+            <input
+                className={styles.MainInput}
+                value={inputVal}
+                onChange={(e) => onChangeInput(e)}
+                type="search"
+                placeholder="Search to plant trees, feed and give sanitary pads"
+            />
+            <button className={styles.MainBtn} style={{ marginRight: "1em" }} type="button" onClick={SpeechRecognition.startListening}>
+                <FontAwesomeIcon icon={faMicrophone} className="pt-1 pl-1" size="md" />
+            </button>
+        </form>
+        {SuggestionReady ? (
+            <div className={styles.MainSuggestions}>
+                {Suggestions.length === 0 ?
+                <div style={{width:"100%",marginTop:"-3em",marginBottom:"2em",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}} >No Suggestions</div>
+                :
+                <>
+                {Suggestions.map((item, i) => {
+                    return <SuggestSpan name={item} SubmitSearchRequest={SubmitSearchRequest} key={i} />;
+                })}
+            </>
+            }
+
+            </div>
+    )
+    :
+    <></>
+}
+</div>
+)}
+const SuggestionDiv = ({ text, SubmitSearchRequest, Suggestions }) => {
+    return (
+        <div className={styles.SuggestionDiv}>
+            {Suggestions.map((item, i) => {
+                return <SuggestSpan name={item} SubmitSearchRequest={SubmitSearchRequest} key={i} />;
+            })}
+        </div>
+    );
+};
+
+export const VoiceModal = ({ transcript,SpeechRecognition }) => {
+    return (
+        <div className={styles.VoiceRecordModal}>
+            <div className={styles.VoiceRecordInner}>
+                <button className={styles.VoiceRecordInnerCloseBtn} onClick={SpeechRecognition.abortListening}>
+                    <span role="img" aria-label="close">
+                        ❌
+                    </span>
+                </button>
+                <button className={styles.VoiceRecordBtn} onClick={SpeechRecognition.stopListening}>
+                    {/* <button className={styles.VoiceRecordBtn}  > */}
+                    <KeyboardVoiceIcon size={30} />
+
+                    <div className={styles.pulse_ring}></div>
+                </button>
+                <p>Start Speaking</p>
+                <span>{transcript}</span>
+            </div>
+        </div>
+    );
 };

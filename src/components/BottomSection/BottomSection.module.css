@@ -1,0 +1,39 @@
+.BottomSection{
+    width: 100%;
+    max-width: 650px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 1em;
+}
+.BottomSectionBtnDiv{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.BottomSectionBtnAddToChrome{
+display: flex;
+align-items: center;
+justify-content: center;
+font-size:15px;
+color: #4ab421;
+font-weight: bold;
+width: 50%;
+}
+.BottomSectionBtnAddBookmark{
+display: flex;
+align-items: center;
+justify-content: center;
+font-size:15px;
+color: #000000;
+font-weight: bold;
+width: 50%;
+}
+.BookmarkMainSection{
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

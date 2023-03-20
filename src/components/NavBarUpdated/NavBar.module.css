@@ -1,0 +1,372 @@
+.AppNavBar {
+    width: 100%;
+    padding-top: 2em;
+    padding-bottom: 1em;
+    padding-right: 1em;
+    padding-left: 1em;
+    position: fixed;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    transition: 0.4s ease-in-out;
+}
+.AppNavBarDark {
+    width: 100%;
+    padding-top: 2em;
+    padding-bottom: 1em;
+    padding-right: 1em;
+    padding-left: 1em;
+    position: fixed;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+    transition: 0.4s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+/* 
+    background: #ffefba;
+    background: -webkit-linear-gradient(to right, #ffffff, #ffefba);
+    background: linear-gradient(to right, #ffffff, #ffefba); */
+    background: #FFFFE0;
+    
+}
+
+.NavMenuBar {
+    width: 2em;
+    height: 2em;
+    background-color: #011627;
+    border-radius: 100px;
+    color: #fff;
+    font-size: 20px;
+    transition: 0.4s ease-in-out;
+}
+.NavLinkDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    color: #4ab421 !important;
+    font-weight: bolder;
+    text-shadow: 1px 1px 0px #00000083;
+    transition: 0.4s ease-in-out;
+}
+.NavBarStoreBtn {
+    background: #011627;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 1px 1px 0px #00000083;
+    font-weight: bolder;
+    padding: 0.5em;
+    border-radius: 5px;
+    transition: 0.4s ease-in-out;
+    margin-right: 1em;
+}
+.TopLeftSection {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 80%;
+}
+.NavBarStoreBtn p {
+    margin-left: 0.5em;
+}
+.NavForm {
+    width: 70%;
+    margin-left: 2em;
+    max-width: 450px;
+    min-width: 300px;
+    position: relative;
+    border: 1px solid black;
+    border-radius: 100px;
+}
+.NavFormMobile {
+    width: 70%;
+    margin-left: 2em;
+    max-width: 450px;
+    min-width: 300px;
+    display: none;
+    position: relative;
+    border: 1px solid black;
+    border-radius: 100px;
+}
+.NavSearchBar {
+    background-color: #fff;
+    padding-left: 0.5em;
+    border-radius: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 2em;
+    transition: 0.4s ease-in-out;
+}
+.LogoNavMain {
+    width: 5em;
+    transition: 0.4s ease-in-out;
+    margin-left: 1em;
+}
+.NavSearchBar input {
+    border: none;
+    width: 80%;
+}
+.MainNavButtonVoice {
+    padding: 0.2em 0.3em;
+    color: #011627;
+    border-radius: 100px;
+    /* margin-right: 0.5em; */
+}
+.MainNavButtonSearch {
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    /* padding: 0.5em 0.3em; */
+    height: 100%;
+    width: 3em;
+    background-color: #ffffff;
+    color: #4ab421;
+}
+.AppMiddleNavSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.SuggestionDiv {
+    padding-top: 2em;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background: #ffffff;
+    width: 90%;
+    border-radius: 20px;
+    height: 70vh;
+    overflow-y: scroll;
+    margin-top: 0.5em;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+/* VoiceRecordModal */
+.VoiceRecordModal {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background-color: #00000083;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    right: 0;
+}
+.VoiceRecordInnerCloseBtn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 9999;
+}
+.VoiceRecordInner {
+    width: 90%;
+    position: relative;
+    height: 80%;
+    max-height: 300px;
+    max-width: 300px;
+    background-color: #fff;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 20px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+.VoiceRecordInner span {
+    width: 90%;
+    text-align: center;
+    font-weight: bold;
+    color: #4ab421;
+    font-size: 15px;
+}
+.VoiceRecordInner p {
+    margin-top: 1em;
+    width: 90%;
+    text-align: center;
+    color: #011627;
+}
+.VoiceRecordBtn {
+    border: none;
+    padding: 0;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    font-size: 1.5em;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    background: #4ab421;
+    position: relative;
+    display: inline-block;
+    line-height: 50px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+}
+
+/* NavBar2 */
+.MainSearchBarWrapper {
+    width: 100%;
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 3em;
+    position: relative;
+}
+.MainSearchBarWrapperMobile {
+    display: none;
+    width: 70%;
+    margin-top: 0em;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.MainSearchBar {
+    width: 100%;
+    background: #fff;
+    height: 45px;
+    border: 2px solid transparent;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 550px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+.MainInput {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border-radius: 100px;
+    border: none;
+    padding: 1em;
+}
+.MainBtn {
+    height: 2.5em;
+    width: 2em;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0em 0em 0.2em 0em;
+    color: #000 !important;
+}
+.MainSuggestions {
+    width: 100%;
+    position: absolute;
+    top: 3em;
+    max-height: 50vh;
+    padding-top: 5em;
+    right: 5;
+    left: 5;
+    z-index: 9999;
+    background-color: #ffffff;
+    max-width: 550px;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+
+/* NavBar2 */
+
+.pulse_ring {
+    content: "";
+    width: 100px;
+    height: 100px;
+    border: 5px solid #4ab421;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    animation: pulsate infinite 2s;
+}
+
+@keyframes pulsate {
+    0% {
+        -webkit-transform: scale(1, 1);
+        opacity: 1;
+    }
+    100% {
+        -webkit-transform: scale(1.2, 1.2);
+        opacity: 0;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .activeNav a {
+        display: none;
+    }
+    .NavMenuBarInvisible {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+@media screen and (max-width: 700px) {
+    .NavBarStoreBtn p {
+        display: none;
+    }
+    .NavForm {
+        width: 60%;
+    }
+}
+@media screen and (max-width: 550px) {
+    .MainSearchBarWrapper {
+        display: none;
+    }
+    .MainSearchBarWrapperMobile {
+        display: flex;
+        width: 70%;
+        margin-left: 0em;
+        max-width: 450px;
+        min-width: 300px;
+    }
+    .NavSearchBar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 2.5em;
+        transition: 0.4s ease-in-out;
+    }
+    .AppNavBarDark {
+        background-color: #ffffff;
+        padding-top: 0.5em;
+    }
+    .SuggestionDiv {
+        margin-top: 3em;
+        height: 70vh;
+        overflow-y: scroll;
+    }
+    .LogoNavMain {
+        width: 8em;
+        transition: 0.4s ease-in-out;
+        margin-left: 1em;
+    }
+}

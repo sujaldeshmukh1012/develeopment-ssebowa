@@ -1,0 +1,130 @@
+.IntroMain {
+    width: 100%;
+    /* background: #ffefba;
+    background: -webkit-linear-gradient(to right, #ffffff, #ffefba);
+    background: linear-gradient(to right, #ffffff, #ffefba); */
+    background: #FFFFE0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 20vh;
+    position: relative;
+    min-height: 100vh;
+}
+.IntroLogo {
+    width: 50%;
+    height: auto;
+    object-fit: contain;
+    max-width: 250px;
+    margin-bottom: 2em;
+}
+/* MainSearchBar */
+.MainSearchBarWrapper {
+    width: 90%;
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.MainSearchBar {
+    width: 100%;
+    background: #fff;
+    height: 45px;
+    border: 2px solid transparent;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 550px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+.MainInput {
+    width: 90%;
+    height: 100%;
+    background-color: transparent;
+    border-radius: 100px;
+    border: none;
+    padding: 1em;
+}
+.MainBtn {
+    height: 2.5em;
+    width: 2em;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0em 0em 0.2em 0em;
+    color: #000 !important;
+}
+.MainSuggestions {
+    width: 100%;
+    position: absolute;
+    top: 3em;
+    max-height: 50vh;
+    padding-top: 5em;
+    right: 5;
+    left: 5;
+    z-index: 9999;
+    background-color: #ffffff;
+    max-width: 550px;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+
+/* MainSearchBar */
+
+/* SlidingOptions */
+.SlidingOptions {
+    width: 90%;
+    max-width: 600px;
+    height: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: scroll;
+    margin-top: 1em;
+    padding-left: 1em;
+}
+.SlidingOptions::-webkit-scrollbar {
+    display: none;
+}
+
+.Options {
+    min-width: 11em;
+    height: 80%;
+    border-radius: 200px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-right: 1em;
+}
+.OptionIcon {
+    height: 50%;
+    margin-left: 0.5em;
+}
+.OptionTitle {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    margin-right: 0.5em;
+    margin-left: 0em;
+}
+/* SlidingOptions */
+
+@media screen and (max-width: 550px) {
+    .IntroLogo {
+        display: none;
+    }
+}

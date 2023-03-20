@@ -45,8 +45,7 @@ const AddBookmark = (element) => {
     }
 };
 
-const Bookmarks = () => {
-    const [addNew, SetAddNew] = useState(false);
+const Bookmarks = ({addNew,closeAddNewBookmark}) => {
     const [BookmarksArray, SetBookmarks] = useState([]);
     const [BookmarkLoaded, SetBookmarkLoaded] = useState(false);
 
@@ -68,58 +67,10 @@ const Bookmarks = () => {
         RenderBookmarks();
     }, []);
 
-    const closeAddNewBookmark = () => {
-        SetAddNew(!addNew);
-    };
     return (
         <div>
             <div className="d-flex  justify-content-around  align-items-center">
-                {/* <Box sx={{ backgroundColor: "white", color: "black", paddingLeft: 2, paddingRight: 2, paddingTop: 1, paddingBottom: 1, borderRadius: "8px" }}>
-                    Bookmarks
-                </Box> */}
-                <button onClick={() => closeAddNewBookmark()} className="d-flex justify-content-center align-items-center p-1 ">
-                    {addNew ? (
-                        <>
-                            <button
-                                className=""
-                                style={{ color: "#40AF04" }}
-                                // variant="contained"
-                                // sx={{
-                                //     fontWeight: "bold",
-                                //     color: "white",
-                                //     backgroundColor: "white",
-                                //     ":hover": {
-                                //         backgroundColor: "lightgrey",
-                                //     },
-                                // }}
-                                // size="large"
-                            >
-                                <ClearIcon></ClearIcon>
-                                Cancel
-                            </button>
-                        </>
-                    ) : (
-                        <button
-                            className="set-as"
-                            style={{ color: "#40AF04" }}
-                            // variant="contained"
-                            // sx={{
-                            //     fontWeight: "bold",
-                            //     color: "White",
-                            //     backgroundColor: "white",
-                            //     ":hover": {
-                            //         backgroundColor: "lightgrey",
-                            //     },
-                            // }}
-                            // // size="large"
-                        >
-                            {/* <AddIcon></AddIcon> */}
-                            <BsBookmark style={{ color: "#40AF04" }} className="me-1"></BsBookmark>
-                            {/* <AiOutlineHome className="me-1"></AiOutlineHome> */}
-                            Bookmark
-                        </button>
-                    )}
-                </button>
+
 
                 {/* <Box sx={{ backgroundColor: "white", color: "black", padding: 2, borderRadius: "20px" }}>Add</Box> */}
             </div>
@@ -216,7 +167,8 @@ const AddNewBookmark = ({ cancelFxn, rerenderFxn }) => {
         if (!/^https?:\/\//i.test(e)) {
             e = "https://" + e;
         }
-        var favurl = "https://api.statvoo.com/favicon/?url=" + e;
+        var favurl = "https://f1.allesedv.com/16/"+e;
+        
         SetImageUrl(favurl);
     };
     const CancelEverything = () => {
